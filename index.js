@@ -1,8 +1,8 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-const addRoleQuestions = require('./roleQuestions')
-const addEmployeeQuestions = require('./employeeQuestions')
-const updateEmployeeQuestions = require('./update')
+const addRoleQuestions = require('./Assets/js/roleQuestions')
+const addEmployeeQuestions = require('./Assets/js/employeeQuestions')
+const updateEmployeeQuestions = require('./Assets/js/update')
 const PORT = process.env.PORT || 3001;
 const db = mysql.createConnection(
     {
