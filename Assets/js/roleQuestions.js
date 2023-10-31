@@ -1,5 +1,8 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
+
+// add requires and sql connections for function
+
 const db = mysql.createConnection(
     {
         host: 'localhost',
@@ -8,6 +11,8 @@ const db = mysql.createConnection(
         database: 'company_db'
     }
 );
+
+// promisify dbquery for department names to adjust data to be useable in inquirer choices array
 
 function getDepartmentArray() {
     return new Promise((resolve, reject) => {
@@ -22,6 +27,8 @@ function getDepartmentArray() {
         })
     })
 }
+
+// add all into an async function to utilize await, use try...catch for errors
 
 async function addRoleQuestions(funcparam) {
     try {
@@ -46,6 +53,8 @@ async function addRoleQuestions(funcparam) {
 
         const answers = await inquirer.prompt(questions);
 
+// Use awaited data in dbquery to produce function
+   
         db.query(`SELECT id FROM department WHERE department.name = ?`, answers.department, (error, res) => {
             if (error) {
                 console.error(error)
@@ -64,5 +73,7 @@ async function addRoleQuestions(funcparam) {
         console.error('error', err)
     }
 }
+
+// export for use in index
 
 module.exports = addRoleQuestions;

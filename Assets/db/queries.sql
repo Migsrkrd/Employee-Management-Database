@@ -1,5 +1,7 @@
 USE company_db;
 
+-- test join statements for index.js
+
 Select department.id AS Department_ID, department.name AS department_name FROM department;
 
 SELECT  roles.id AS Role_ID, roles.title AS Job_Title, department.name AS Department, roles.salary AS Salary

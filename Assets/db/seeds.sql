@@ -1,5 +1,7 @@
 USE company_db;
 
+-- sample inserts
+
 INSERT INTO department (name)
 VALUES ("Engineering"),
         ("Finance"),

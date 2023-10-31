@@ -1,5 +1,8 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
+
+// add requires and sql connections for function
+
 const db = mysql.createConnection(
     {
         host: 'localhost',
@@ -8,6 +11,8 @@ const db = mysql.createConnection(
         database: 'company_db'
     },
 );
+
+// promisify dbquery for role titles to adjust data to be useable in inquirer choices array
 
 function getRolesArray() {
     return new Promise((resolve, reject) => {
@@ -23,6 +28,8 @@ function getRolesArray() {
     })
 }
 
+// promisify dbquery for employee first names to adjust data to be useable in inquirer choices array
+
 function getFirstNameArray() {
     return new Promise((resolve, reject) => {
         db.query("SELECT first_name FROM employee", (err, result) => {
@@ -36,6 +43,8 @@ function getFirstNameArray() {
         })
     })
 }
+
+// add all into an async function to utilize await, use try...catch for errors
 
 async function addEmployeeQuestions(funcparam) {
     try {
@@ -70,6 +79,9 @@ async function addEmployeeQuestions(funcparam) {
         const answers = await inquirer.prompt(questions);
         db.query(`SELECT id FROM roles WHERE title = ?`, answers.role, (err, completed) => {
             db.query(`SELECT id FROM employee WHERE employee.first_name = ?`, answers.manager, (error, res) => {
+                
+                // if the response selected is "none", disregard selecting its id and replace the res value with null to be inputted in next dbquery
+                
                 if (res.length === 0) {
                     res = [{ id: null }]
                 }
@@ -88,5 +100,7 @@ async function addEmployeeQuestions(funcparam) {
         console.error('error', err)
     }
 }
+
+// export for use in index
 
 module.exports = addEmployeeQuestions;
